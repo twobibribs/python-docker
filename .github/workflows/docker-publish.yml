@@ -81,7 +81,16 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
+      - name: Run Orca Container Image Scan
+        uses: orcasecurity/shiftleft-container-image-action@v1
+        id: orcasecurity_container_image_scan
+        with:
+          api_token: ${{ secrets.ORCA_SECURITY_API_TOKEN }}
+          project_key: "default"
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
+          format: "sarif"
+          output:
+            "results/"
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
       # repository is public to avoid leaking data.  If you would like to publish
