@@ -87,7 +87,7 @@ jobs:
         with:
           api_token: ${{ secrets.ORCA_SECURITY_API_TOKEN }}
           project_key: "default"
-          image: ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
+          image: ${{ steps.meta.outputs.tags }}
           format: "sarif"
           output:
             "results/"
